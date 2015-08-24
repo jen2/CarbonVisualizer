@@ -23,6 +23,8 @@
 import Foundation
 import SceneKit
 
+let PI: Float = 3.14159
+
 class Molecules {
   class func methaneMolecule() -> SCNNode {
     var methaneMolecule = SCNNode()
@@ -36,17 +38,68 @@ class Molecules {
     let hydrogenNode3 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, -4, 0))
     let hydrogenNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, +4, 0))
     
+    let chbond1 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (-2, 0, 0))
+    chbond1.rotation = SCNVector4Make( 0, 0, 1, PI / 2)
+    
+    let chbond2 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (2, 0, 0))
+    chbond2.rotation = SCNVector4Make( 0, 0, 1, 3 * PI / 2)
+    
+    let chbond3 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (0, -2, 0))
+    
+    
+    let chbond4 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (0, 2, 0))
+
+    
+    
     return methaneMolecule
   }
   
-  class func ethanolMolecule() -> SCNNode {
-    var ethanolMolecule = SCNNode()
-    return ethanolMolecule
+  class func methanolMolecule() -> SCNNode {
+    var methanolMolecule = SCNNode()
+    
+    // 1 Carbon
+    let carbonNode1 = nodeWithAtom(Atoms.carbonAtom(), molecule: methanolMolecule, position: SCNVector3Make(0, 0, 0))
+    
+    // 4 Hydrogen
+    let hydrogenNode1 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methanolMolecule, position: SCNVector3Make(-4, 0, 0))
+    let hydrogenNode2 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methanolMolecule, position: SCNVector3Make(0, -4, 0))
+    let hydrogenNode3 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methanolMolecule, position: SCNVector3Make(0, +4, 0))
+    
+    //One Hydroxl ion should go here
+    
+    let oxygenNode1 = nodeWithAtom(Atoms.oxygenAtom(), molecule: methanolMolecule, position: SCNVector3Make(+4, 0, 0))
+    
+    let hydrogenNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methanolMolecule, position: SCNVector3Make(+8, 0, 0))
+    
+    return methanolMolecule
   }
   
-  class func ptfeMolecule() -> SCNNode {
-    var ptfeMolecule = SCNNode()
-    return ptfeMolecule
+  class func tetrafluoroethyleneMolecule() -> SCNNode {
+    var tetrafluoroethyleneMolecule = SCNNode()
+    
+    let carbonNode1 = nodeWithAtom(Atoms.carbonAtom(), molecule: tetrafluoroethyleneMolecule, position: SCNVector3Make(0, 0, 0))
+
+    let florineNode1 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: tetrafluoroethyleneMolecule, position: SCNVector3Make(-2, -3.464, 0))
+    let florineNode2 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: tetrafluoroethyleneMolecule, position: SCNVector3Make(+2, -3.464, 0))
+    let florineNode3 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: tetrafluoroethyleneMolecule, position: SCNVector3Make(-2, +3.464, 0))
+    let florineNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: tetrafluoroethyleneMolecule, position: SCNVector3Make(+2, +3.464, 0))
+    
+    
+    let chbond1 = nodeWithBond (Bonds.singleBond(), molecule:tetrafluoroethyleneMolecule, position: SCNVector3Make (-1, -1.732, 0))
+    chbond1.rotation = SCNVector4Make( 0, 0, 1, -PI / 6.0)
+    
+    let chbond2 = nodeWithBond (Bonds.singleBond(), molecule:tetrafluoroethyleneMolecule, position: SCNVector3Make (1, -1.732, 0))
+    chbond2.rotation = SCNVector4Make( 0, 0, 1, PI / 6.0)
+    
+    let chbond3 = nodeWithBond (Bonds.singleBond(), molecule:tetrafluoroethyleneMolecule, position: SCNVector3Make (-1, 1.732, 0))
+    chbond3.rotation = SCNVector4Make( 0, 0, 1, PI / 6.0)
+    
+    let chbond4 = nodeWithBond (Bonds.singleBond(), molecule:tetrafluoroethyleneMolecule, position: SCNVector3Make (1, 1.732, 0))
+    chbond4.rotation = SCNVector4Make( 0, 0, 1, -PI / 6.0)
+
+
+    
+    return tetrafluoroethyleneMolecule
   }
   
   class func nodeWithAtom(atom: SCNGeometry, molecule: SCNNode, position: SCNVector3) -> SCNNode {
@@ -55,4 +108,11 @@ class Molecules {
     molecule.addChildNode(node)
     return node
   }
+    
+    class func nodeWithBond(bond: SCNGeometry, molecule: SCNNode, position: SCNVector3) -> SCNNode {
+        let node = SCNNode(geometry: bond)
+        node.position = position
+        molecule.addChildNode(node)
+        return node
+    }
 }

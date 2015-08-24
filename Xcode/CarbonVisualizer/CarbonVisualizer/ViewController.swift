@@ -76,7 +76,19 @@ class ViewController: UIViewController {
     sceneView.scene = scene
   }
   
+    
+    
   func panGesture(sender: UIPanGestureRecognizer) {
+    // You have a translation make that into a vector3 by putting z to 0
+    
+    // rotate the vector3 by 90 degrees to get a new vector3
+    
+    // use this vector3 for the axis of the transform
+    
+    // for the angle instead of doing with translation.x use the lenght of translation
+    
+    // (maybe you can use the lenght of the vector3 for the angle formula
+    
     let translation = sender.translationInView(sender.view!)
     var newAngle = (Float)(translation.x)*(Float)(M_PI)/180.0
     newAngle += currentAngle
@@ -101,11 +113,11 @@ class ViewController: UIViewController {
       geometryLabel.text = "Methane\n(Natural Gas)"
       geometryNode = Molecules.methaneMolecule()
     case 2:
-      geometryLabel.text = "Ethanol\n(Alcohol)"
-      geometryNode = Molecules.ethanolMolecule()
+      geometryLabel.text = "Methanol\n(Alcohol)"
+      geometryNode = Molecules.methanolMolecule()
     case 3:
       geometryLabel.text = "Polytetrafluoroethylene\n(Teflon)"
-      geometryNode = Molecules.ptfeMolecule()
+      geometryNode = Molecules.tetrafluoroethyleneMolecule()
     default:
       break
     }
