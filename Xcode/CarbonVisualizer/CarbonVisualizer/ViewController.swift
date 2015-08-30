@@ -116,8 +116,8 @@ class ViewController: UIViewController {
       geometryLabel.text = "Methanol\n(Alcohol)"
       geometryNode = Molecules.methanolMolecule()
     case 3:
-      geometryLabel.text = "Polytetrafluoroethylene\n(Teflon)"
-      geometryNode = Molecules.tetrafluoroethyleneMolecule()
+      geometryLabel.text = "Benzene\n(Teflon)"
+      geometryNode = Molecules.benzeneMolecule()
     default:
       break
     }

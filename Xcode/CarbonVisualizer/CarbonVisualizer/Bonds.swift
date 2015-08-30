@@ -17,4 +17,13 @@ class Bonds {
         return singleBond
         
     }
+    
+    class func doubleBond() -> SCNGeometry {
+        let doubleBond = SCNCylinder (radius: 0.8, height: 4.0)
+        doubleBond.firstMaterial!.diffuse.contents = UIColor.blueColor()
+        doubleBond.firstMaterial!.specular.contents = UIColor.whiteColor()
+        return doubleBond
+        
+    }
+
 }
