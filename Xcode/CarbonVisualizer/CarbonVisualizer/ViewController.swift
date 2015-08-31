@@ -76,7 +76,11 @@ class ViewController: UIViewController {
     sceneView.scene = scene
   }
   
-    
+    func length (vector: CGPoint) ->Float {
+        
+        return (Float) (sqrt (vector.x * vector.x + vector.y * vector.y))
+        
+    }
     
   func panGesture(sender: UIPanGestureRecognizer) {
     // You have a translation make that into a vector3 by putting z to 0
@@ -89,14 +93,45 @@ class ViewController: UIViewController {
     
     // (maybe you can use the lenght of the vector3 for the angle formula
     
+
+    
+    //let translation = sender.translationInView(sender.view!) //translationInView returns a CGPoint
+    
+   //sender.translationinView(sender.view!) = Vector3MakeRotation(90, CGPoint, CGPoint, 0)
+    
+   // geometryNode.pivot = translation
+    
+   // var newAngle = (Float)(translation.x)*(Float)(M_PI)/180.0
+    
+   // newAngle += currentAngle
+    
+   // geometryNode.transform = SCNMatrix4MakeRotation(newAngle, 0, 1, 0)
+    
+
+    
+    
     let translation = sender.translationInView(sender.view!)
-    var newAngle = (Float)(translation.x)*(Float)(M_PI)/180.0
+    
+    
+    
+    let dist: Float =  length(translation)  //Finding Vector length
+    
+    var newAngle = dist * (Float)(M_PI)/180.0 //Finding the newAngle in radians
+    
     newAngle += currentAngle
     
-    geometryNode.transform = SCNMatrix4MakeRotation(newAngle, 0, 1, 0)
+    print("Translation is \(translation.x) \(translation.y) \n")
+    print("New angle is \(newAngle) \n")
+    print("Current angle is \(currentAngle) \n \n")
+    
+    var axis = CGPointMake(translation.y, translation.x) //(Shortcut for doing rotation by 90 degrees, reverse the x and y values)
+    //Here we found the perpendicular axis for the rotation to happen.
+    
+    geometryNode.transform = SCNMatrix4MakeRotation(newAngle, (Float)(axis.x), (Float) (axis.y), 0)
     
     if(sender.state == UIGestureRecognizerState.Ended) {
       currentAngle = newAngle
+    
     }
   }
   

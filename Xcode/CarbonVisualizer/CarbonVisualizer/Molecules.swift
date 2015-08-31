@@ -26,35 +26,88 @@ import SceneKit
 let PI: Float = 3.14159
 
 class Molecules {
+  
+    class func multiply (vector: SCNVector3, matrix: SCNMatrix4) ->SCNVector3{
+        var result:SCNVector3 = SCNVector3Make(vector.x * matrix.m11 + vector.y * matrix.m21 + vector.z * matrix.m31 + 1 * matrix.m41, vector.x * matrix.m12 + vector.y * matrix.m22 + vector.z * matrix.m32 + 1 * matrix.m42, vector.x * matrix.m13 + vector.y * matrix.m23 + vector.z * matrix.m33 + 1 * matrix.m43)
+        
+        return result
+    }
+    
+    
     
     //METHANE MOLECULE
     
   class func methaneMolecule() -> SCNNode {
     var methaneMolecule = SCNNode()
     
+    var position: SCNVector3 = SCNVector3Make(0, +4, 0)
+    var transform: SCNMatrix4 = SCNMatrix4MakeRotation(2 * PI / 3, 1, 0, 0)
+    
     // 1 Carbon
     let carbonNode1 = nodeWithAtom(Atoms.carbonAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, 0, 0))
     
     // 4 Hydrogen
-    let hydrogenNode1 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(-4, 0, 0))
-    let hydrogenNode2 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(+4, 0, 0))
-    let hydrogenNode3 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, -4, 0))
-    let hydrogenNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, +4, 0))
-    
-    let chbond1 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (-2, 0, 0))
-    chbond1.rotation = SCNVector4Make( 0, 0, 1, PI / 2)
-    
-    let chbond2 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (2, 0, 0))
-    chbond2.rotation = SCNVector4Make( 0, 0, 1, 3 * PI / 2)
-    
-    let chbond3 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (0, -2, 0))
+    let hydrogenNode1 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: SCNVector3Make(0, +4, 0))
     
     
-    let chbond4 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (0, 2, 0))
+    position = multiply(position, matrix: transform)
+    
+    let hydrongenNode2 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: position)
+    
+    
+
+    
+    transform = SCNMatrix4MakeRotation(2 * PI / 3, 0, 1, 0)
+    
+    position = multiply(position, matrix: transform)
+    
+    let hydrongenNode3 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: position)
+    
 
     
     
-    return methaneMolecule
+    position = multiply(position, matrix: transform)
+    
+    let hydrongenNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methaneMolecule, position: position)
+    
+    //Bonds
+    
+    var bondTransform: SCNMatrix4 = SCNMatrix4MakeRotation(2 * PI / 3, 1, 0, 0)
+    bondTransform = SCNMatrix4Mult(SCNMatrix4MakeTranslation(0, 2, 0), bondTransform)
+    
+    
+    
+    let chbond1 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make (0, 2, 0))
+    
+    
+    
+    let chbond2 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make(0, 0, 0))
+    
+    chbond2.transform = bondTransform
+    
+    
+    bondTransform = SCNMatrix4Mult(bondTransform, SCNMatrix4MakeRotation(2 * PI / 3, 0, 1, 0) )
+    
+    
+    let chbond3 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make(0, 0, 0))
+    
+    chbond3.transform = bondTransform
+    
+    
+    bondTransform = SCNMatrix4Mult(bondTransform, SCNMatrix4MakeRotation(2 * PI / 3, 0, 1, 0) )
+    
+    
+    let chbond4 = nodeWithBond (Bonds.singleBond(), molecule:methaneMolecule, position: SCNVector3Make(0, 0, 0))
+    
+    chbond4.transform = bondTransform
+    
+    
+    
+    
+    
+    
+    
+         return methaneMolecule
   }
   
     //METHANOL MOLECULE
@@ -75,6 +128,29 @@ class Molecules {
     let oxygenNode1 = nodeWithAtom(Atoms.oxygenAtom(), molecule: methanolMolecule, position: SCNVector3Make(+4, 0, 0))
     
     let hydrogenNode4 = nodeWithAtom(Atoms.hydrogenAtom(), molecule: methanolMolecule, position: SCNVector3Make(+8, 0, 0))
+    
+    // BONDS
+    
+    let chbond1 = nodeWithBond (Bonds.singleBond(), molecule:methanolMolecule, position: SCNVector3Make (-2, 0, 0))
+    chbond1.rotation = SCNVector4Make( 0, 0, 1, PI / 2.0)
+    
+    let chbond2 = nodeWithBond (Bonds.singleBond(), molecule:methanolMolecule, position: SCNVector3Make (2, 0, 0))
+    chbond2.rotation = SCNVector4Make( 0, 0, 1, PI / 2.0)
+    
+    let chbond3 = nodeWithBond (Bonds.singleBond(), molecule:methanolMolecule, position: SCNVector3Make (6, 0, 0))
+    chbond3.rotation = SCNVector4Make( 0, 0, 1, PI / 2.0)
+    
+    let chbond4 = nodeWithBond (Bonds.singleBond(), molecule:methanolMolecule, position: SCNVector3Make (0, 2, 0))
+    chbond4.rotation = SCNVector4Make( 0, 0, 1, PI)
+    
+    let chbond5 = nodeWithBond (Bonds.singleBond(), molecule:methanolMolecule, position: SCNVector3Make (0, -2, 0))
+    chbond5.rotation = SCNVector4Make( 0, 0, 1, PI)
+    
+
+    
+
+    
+    
     
     return methanolMolecule
   }
